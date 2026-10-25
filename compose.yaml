@@ -1,0 +1,31 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: chess_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  smtp4dev:
+    image: rnwood/smtp4dev:v3
+    restart: unless-stopped
+    environment:
+      ServerOptions__Urls: "http://*:80"
+      ServerOptions__HostName: smtp4dev
+      ServerOptions__TlsMode: None
+    ports:
+      - "127.0.0.1:5080:80" # Просмотр писем в браузере
+      - "127.0.0.1:2525:25" # SMTP для локального backend
+    volumes:
+      - smtp4dev-data:/smtp4dev
+
+volumes:
+  pgdata:
+    driver: local
+  smtp4dev-data:

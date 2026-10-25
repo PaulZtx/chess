@@ -1,0 +1,6 @@
+@BackChess_HostAddress = http://localhost:5083
+
+GET {{BackChess_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
